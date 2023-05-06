@@ -3,10 +3,11 @@ from ..items import DreamItem
 
 
 class ViseroSpider(scrapy.Spider):
-    name = "viseRo"
-    allowed_domains = ["vise.ro"]
+    name = "generic"
+    allowed_domains = ["madeupmadeupmadeupmade.ro"]
     letter = 'a'
-    start_urls = ["http://www.vise.ro/dictionar?letter=" + letter]
+    start_urls = [
+        "http://www.madeupmadeupmadeupmade.ro/dictionar?letter=" + letter]
 
     propertyFN = "vise" + letter.upper() + ".json"
 
@@ -32,5 +33,6 @@ class ViseroSpider(scrapy.Spider):
         next_page = response.css("ul.pager").css('a[rel="next"]')
 
         if next_page is not None:
-            next_page_url = "http://www.vise.ro" + next_page.attrib["href"]
+            next_page_url = "http://www.madeupmadeupmadeupmade.ro" + \
+                next_page.attrib["href"]
             yield response.follow(next_page_url, callback=self.parse)

@@ -19,7 +19,7 @@ class RdpscraperPipeline:
 
 class MongoDBPipeline:
 
-    collection = 'scrapy_items_dreams_a'
+    collection = 'generic'
 
     def __init__(self, mongodb_uri, mongodb_db):
         self.mongodb_uri = mongodb_uri

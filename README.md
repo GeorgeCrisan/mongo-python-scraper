@@ -1,3 +1,5 @@
+Enable a venv and install modules as pre requrements file in the root
+
 ### How to use venv shell ?
 
 source venv/bin/activate
@@ -7,13 +9,17 @@ source venv/bin/activate
 
 You can start your first spider with:
     cd rdpscraper
-    <-----------------  name  -- URL ---------------->
+
     scrapy genspider example example.com
 
 #### Scrapy shell ipython ?
     cd rdpscraper
+
     source venv/bin/activate
     scrapy shell
 
-### Save to mongo
-scrapy crawl -s MONGODB_URI="mongodb+srv://<userName>:<password>@maincluster.s9jsn2d.mongodb.net/?retryWrites=true&w=majority" -s MONGODB_DATABASE="scrapy" viseRo
+### Start spider and save to mongo
+    cd rdpscraper
+
+    scrapy crawl -s MONGODB_URI="mongodb+srv://user:password@maincluster.s9jsn2d.mongodb.net/?retryWrites=true&w=majority" -s MONGODB_DATABASE="scrapy" generic
+

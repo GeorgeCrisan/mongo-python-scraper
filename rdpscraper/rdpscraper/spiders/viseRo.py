@@ -10,11 +10,11 @@ class ViseroSpider(scrapy.Spider):
 
     propertyFN = "vise" + letter.upper() + ".json"
 
-    custom_settings = {
-        "FEEDS": {
-            propertyFN: {"format": "json"}
-        }
-    }
+    # custom_settings = {
+    #     "FEEDS": {
+    #         propertyFN: {"format": "json"}
+    #     }
+    # }
 
     def parse(self, response):
 

@@ -1,13 +1,24 @@
 import scrapy
 from ..items import DreamItem
+from scrapy_playwright.page import PageMethod
 
 
 class ViseroSpider(scrapy.Spider):
     name = "generic"
-    allowed_domains = ["madeupmadeupmadeupmade.ro"]
+    allowed_domains = ["vise.ro"]
     letter = 'a'
-    start_urls = [
-        "http://www.madeupmadeupmadeupmade.ro/dictionar?letter=" + letter]
+    # start_urls = ["http://www.vise.ro/dictionar?letter=" + letter]
+
+    def start_requests(self):
+        url = "http://www.vise.ro/dictionar?letter=" + self.letter
+
+        yield scrapy.Request(url, meta=dict(
+            playwright=True,
+            playwright_include_page=True,
+            playwright_page_methods=[PageMethod(
+                'wait_for_selector', 'a.list-group-item')],
+            errback=self.errback,
+        ))
 
     propertyFN = "vise" + letter.upper() + ".json"
 
@@ -17,7 +28,10 @@ class ViseroSpider(scrapy.Spider):
     #     }
     # }
 
-    def parse(self, response):
+    async def parse(self, response):
+
+        page = response.meta["playwright_page"]
+        await page.close()
 
         items = response.css("a.list-group-item")
 
@@ -33,6 +47,15 @@ class ViseroSpider(scrapy.Spider):
         next_page = response.css("ul.pager").css('a[rel="next"]')
 
         if next_page is not None:
-            next_page_url = "http://www.madeupmadeupmadeupmade.ro" + \
-                next_page.attrib["href"]
-            yield response.follow(next_page_url, callback=self.parse)
+            next_page_url = "http://www.vise.ro" + next_page.attrib["href"]
+            yield scrapy.Request(next_page_url, meta=dict(
+                playwright=True,
+                playwright_include_page=True,
+                playwright_page_methods=[PageMethod(
+                    'wait_for_selector', 'a.list-group-item')],
+                errback=self.errback,
+            ))
+
+    async def errback(self, failure):
+        page = failure.request.meta["playwright_page"]
+        await page.close()

@@ -9,17 +9,19 @@ source venv/bin/activate
 
 You can start your first spider with:
     cd rdpscraper
-
+    
     scrapy genspider example example.com
 
-#### Scrapy shell ipython ?
+#### Scrapy shell ipython?
+   
     cd rdpscraper
-
     source venv/bin/activate
     scrapy shell
 
 ### Start spider and save to mongo
+
     cd rdpscraper
+    scrapy crawl -s MONGODB_URI="mongodb+srv://user:pass@maincluster.s9jsn2d.mongodb.net/?retryWrites=true&w=majority" -s MONGODB_DATABASE="scrapy" generic
 
-    scrapy crawl -s MONGODB_URI="mongodb+srv://user:password@maincluster.s9jsn2d.mongodb.net/?retryWrites=true&w=majority" -s MONGODB_DATABASE="scrapy" generic
-
+### Misc 
+For react pages implement https://scrapeops.io/python-scrapy-playbook/scrapy-playwright/#interacting-with-the-page-using-playwright-pagemethods
